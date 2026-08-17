@@ -580,7 +580,19 @@ window.currentCert = null;
   const d = params.get('d');
   if (!d) return;
   try {
-    const cert = JSON.parse(b64decode(d));
+    const str = b64decode(d);
+    const fields = str.split('|');
+    const cert = {
+      name: fields[0] || '',
+      gender: fields[1] || '',
+      idcard: fields[2] || '',
+      category: fields[3] || '',
+      hospital: fields[4] || '',
+      examDate: fields[5] || '',
+      validDate: fields[6] || '',
+      photo: fields[7] || '',
+      phone: fields[8] || ''
+    };
     window.currentCert = cert;
     document.getElementById('personName').textContent = cert.name || '';
     document.getElementById('r_name').textContent = cert.name || '';
@@ -618,7 +630,7 @@ document.querySelector('.download-btn').addEventListener('click', async function
     return;
   }
   // 验证预留手机号
-  if (cert.ph && phone !== cert.ph) {
+  if (cert.phone && phone !== cert.phone) {
     alert('手机号与预留号码不符，无法下载');
     phoneInput.focus();
     return;
