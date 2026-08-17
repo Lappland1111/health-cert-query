@@ -616,6 +616,12 @@ document.querySelector('.download-btn').addEventListener('click', async function
     alert('数据加载失败，请刷新页面重试');
     return;
   }
+  // 验证预留手机号
+  if (cert.ph && phone !== cert.ph) {
+    alert('手机号与预留号码不符，无法下载');
+    phoneInput.focus();
+    return;
+  }
   const loading = document.getElementById('downloadLoading');
   loading.classList.add('active');
   try {
