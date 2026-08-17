@@ -604,8 +604,8 @@ window.currentCert = null;
     document.getElementById('r_validDate').textContent = cert.validDate || '';
     if (cert.photo) {
       let imgSrc = cert.photo;
-      if (imgSrc.indexOf('data:') !== 0) {
-        // 纯base64，自动补前缀
+      // 如果是纯base64（不是http也不是data:），补前缀
+      if (imgSrc.indexOf('http') !== 0 && imgSrc.indexOf('data:') !== 0) {
         imgSrc = 'data:image/jpeg;base64,' + imgSrc;
       }
       document.getElementById('personPhoto').innerHTML = '<img src="' + imgSrc + '" alt="照片">';
@@ -650,7 +650,9 @@ document.querySelector('.download-btn').addEventListener('click', async function
     const dcPhoto = document.getElementById('dcPhoto');
     if (cert.photo) {
       let imgSrc = cert.photo;
-      if (imgSrc.indexOf('data:') !== 0) imgSrc = 'data:image/jpeg;base64,' + imgSrc;
+      if (imgSrc.indexOf('http') !== 0 && imgSrc.indexOf('data:') !== 0) {
+        imgSrc = 'data:image/jpeg;base64,' + imgSrc;
+      }
       dcPhoto.innerHTML = '<img src="' + imgSrc + '" crossorigin="anonymous">';
     } else {
       dcPhoto.innerHTML = '';
